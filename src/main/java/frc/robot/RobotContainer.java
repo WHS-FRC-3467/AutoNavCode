@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.IMU.IMU;
+import frc.robot.IMU.IMU_ReportStatus;
 import frc.robot.Subsystems.DriveSubsystem.DriveSubsystem;
 import frc.robot.Subsystems.DriveSubsystem.SplitArcadeDrive;
 import frc.robot.control.XboxController;
@@ -33,7 +35,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-
+  
   public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public static XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
@@ -51,6 +53,11 @@ public class RobotContainer {
         new SplitArcadeDrive(m_robotDrive, 
                             () -> m_driverController.getLeftY(),
                             () -> m_driverController.getRightX()));  
+
+    
+    IMU gyro = IMU.getInstance();
+    
+    new IMU_ReportStatus(gyro);
   }
 
   /**

@@ -41,19 +41,23 @@ public final class Constants {
                 (kWheelDiameterInches * Math.PI) / (double) kEncoderCPR;
 
         // Need to be changed after characterization
-        public static final double ksVolts = 0.22;
-        public static final double kvVoltSecondsPerMeter = 1.98;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+        public static final double ksVolts = 0.672;
+        public static final double kvVoltSecondsPerMeter = 2.47;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.316;
 
-        public static final double kPDriveVel = 8.5;
+        public static final double kPDriveVel = 0.0000688;
+        //public static final double kPDriveVel = 6.88e-5
 
         public static final double kTrackwidthMeters = 0.69;
         public static final DifferentialDriveKinematics kDriveKinematics =
             new DifferentialDriveKinematics(kTrackwidthMeters);
         
         
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        // public static final double kMaxSpeedMetersPerSecond = 3;
+        // public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+
+        public static final double kMaxSpeedMetersPerSecond = 0.25;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
 
         // Don't change these values 
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds

@@ -9,19 +9,17 @@ package frc.robot.Subsystems.DriveSubsystem;
 
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.IMU.IMU;
 
 public class DriveSubsystem extends SubsystemBase
 {
@@ -46,9 +44,10 @@ public class DriveSubsystem extends SubsystemBase
         new Encoder(DriveConstants.kRightEncoderPorts[0], DriveConstants.kRightEncoderPorts[1],
                   DriveConstants.kRightEncoderReversed);
 
-    private final PigeonIMU m_gyro = new PigeonIMU(6);
+    // The Gyro
+    private final IMU m_gyro = IMU.getInstance();
     
-                  // Odometry class for tracking robot pose
+    // Odometry class for tracking robot pose
     private final DifferentialDriveOdometry m_odometry;
                 
     
@@ -85,14 +84,17 @@ public class DriveSubsystem extends SubsystemBase
         m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
         m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
 
+        // Setup the gyro & encoders
+        m_gyro.zeroAngle();
+
         resetEncoders();
-        m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+        m_odometry = new DifferentialDriveOdometry(m_gyro.getAngle());
     }
 
     @Override
     public void periodic() {
     // Update the odometry in the periodic block
-        m_odometry.update(m_gyro.getRotation2d(), m_leftEncoder.getDistance(),
+        m_odometry.update(m_gyro.getAngle(), m_leftEncoder.getDistance(),
                             m_rightEncoder.getDistance());
     }
     /**
@@ -115,7 +117,7 @@ public class DriveSubsystem extends SubsystemBase
      *
      * @return the left drive encoder value
      */
-    public int getLeftEncoderValue()
+    public double getLeftEncoderValue()
     {
         return m_leftTalon1.getSelectedSensorPosition();
     }
@@ -125,7 +127,7 @@ public class DriveSubsystem extends SubsystemBase
      *
      * @return the right drive encoder value
      */
-    public int getRightEncoderValue()
+    public double getRightEncoderValue()
     {
         return m_rightTalon1.getSelectedSensorPosition();
     }
@@ -197,14 +199,14 @@ public class DriveSubsystem extends SubsystemBase
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(pose, m_gyro.getRotation2d());
+    m_odometry.resetPosition(pose, m_gyro.getAngle());
   }
   
   /**
    * Zeroes the heading of the robot.
    */
   public void zeroHeading() {
-    m_gyro.reset();
+    m_gyro.zeroAngle();
   }
 
   /**
@@ -213,7 +215,7 @@ public class DriveSubsystem extends SubsystemBase
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return m_gyro.getRotation2d().getDegrees();
+    return m_gyro.getCurrentAngle();
   }
 
   /**
@@ -222,7 +224,7 @@ public class DriveSubsystem extends SubsystemBase
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return -m_gyro.getRate();
+    return m_gyro.getCurrentAngularRate();
   }
     
   /**
