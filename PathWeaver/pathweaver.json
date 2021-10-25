@@ -1,9 +1,9 @@
 {
   "lengthUnit": "Meter",
   "exportUnit": "Always Meters",
-  "maxVelocity": 1.0,
-  "maxAcceleration": 1.0,
-  "wheelBase": 0.8636,
-  "gameName": "Slalom Path",
+  "maxVelocity": 0.25,
+  "maxAcceleration": 0.5,
+  "trackWidth": 0.69,
+  "gameName": "Infinite Recharge 2021",
   "outputDir": ""
 }
