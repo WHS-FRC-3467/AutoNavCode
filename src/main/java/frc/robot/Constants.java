@@ -36,9 +36,9 @@ public final class Constants {
         public static final double slewRate = 0.1;
         public static final int kEncoderCPR = 1024;
         public static final double kWheelDiameterInches = 6;
-        public static final double kEncoderDistancePerPulse =
-                // Assumes the encoders are directly mounted on the wheel shafts
-                (kWheelDiameterInches * Math.PI) / (double) kEncoderCPR;
+        public static final double kEncoderDistancePerPulse = 0.4775 / (double) kEncoderCPR;
+                // // Assumes the encoders are directly mounted on the wheel shafts
+                // (kWheelDiameterInches * Math.PI) / (double) kEncoderCPR;
 
         // Need to be changed after characterization
         public static final double ksVolts = 0.672;
