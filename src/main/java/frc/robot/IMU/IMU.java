@@ -1,5 +1,6 @@
 package frc.robot.IMU;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,7 +27,7 @@ public class IMU extends SubsystemBase {
 	/* Constructor */
 	protected IMU() {
 		
-		m_pidgey = new PigeonIMU(6);
+		m_pidgey = new PigeonIMU(new TalonSRX(6));
 		m_genStatus = new PigeonIMU.GeneralStatus();
 
 		/* reset heading, angle measurement wraps at plus/minus 23,040 degrees (64 rotations) */

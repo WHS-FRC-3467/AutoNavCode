@@ -114,7 +114,7 @@ public class RobotContainer {
               // RamseteCommand passes volts to the callback
               m_robotDrive::tankDriveVolts,
               m_robotDrive
-        );
+    );
 
     // Reset odometry to the starting pose of the trajectory.
     m_robotDrive.resetOdometry(trenchPickUp.getInitialPose());
